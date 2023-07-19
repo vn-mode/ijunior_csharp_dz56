@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Program
 {
-    const string OUTPUT_FORMAT = "{0} - {1}";
+    const string OutputFormat = "{0} - {1}";
 
     public static void Main()
     {
@@ -17,12 +17,17 @@ public class Program
             new Soldier("Томас", "Винтовка", "Майор", 60)
         };
 
+        DisplaySoldierNamesAndRanks(soldiers);
+    }
+
+    public static void DisplaySoldierNamesAndRanks(List<Soldier> soldiers)
+    {
         var soldierNamesAndRanks = from soldier in soldiers
                                    select new { soldier.Name, soldier.Rank };
 
         foreach (var item in soldierNamesAndRanks)
         {
-            Console.WriteLine(string.Format(OUTPUT_FORMAT, item.Name, item.Rank));
+            Console.WriteLine(string.Format(OutputFormat, item.Name, item.Rank));
         }
     }
 }
