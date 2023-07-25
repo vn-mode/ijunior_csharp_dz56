@@ -4,23 +4,20 @@ using System.Linq;
 
 public class Program
 {
-    const string OutputFormat = "{0} - {1}";
-
     public static void Main()
     {
-        List<Soldier> soldiers = new List<Soldier>
-        {
-            new Soldier("Алексей", "Винтовка", "Рядовой", 12),
-            new Soldier("Иван", "Пистолет", "Сержант", 24),
-            new Soldier("Петр", "Снайперская винтовка", "Капитан", 36),
-            new Soldier("Николай", "Винтовка", "Лейтенант", 48),
-            new Soldier("Томас", "Винтовка", "Майор", 60)
-        };
+        var soldiers = Soldier.CreateSampleSoldiers();
 
-        DisplaySoldierNamesAndRanks(soldiers);
+        var soldierService = new SoldierService();
+        soldierService.DisplaySoldierNamesAndRanks(soldiers);
     }
+}
 
-    public static void DisplaySoldierNamesAndRanks(List<Soldier> soldiers)
+public class SoldierService
+{
+    const string OutputFormat = "{0} - {1}";
+
+    public void DisplaySoldierNamesAndRanks(IEnumerable<Soldier> soldiers)
     {
         var soldierNamesAndRanks = from soldier in soldiers
                                    select new { soldier.Name, soldier.Rank };
@@ -34,40 +31,28 @@ public class Program
 
 public class Soldier
 {
-    private string _name;
-    private string _weapon;
-    private string _rank;
-    private int _serviceDuration;
+    public string Name { get; private set; }
+    public string Weapon { get; private set; }
+    public string Rank { get; private set; }
+    public int ServiceDuration { get; private set; }
 
-    public string Name
-    {
-        get { return _name; }
-        private set { _name = value; }
-    }
-
-    public string Weapon
-    {
-        get { return _weapon; }
-        private set { _weapon = value; }
-    }
-
-    public string Rank
-    {
-        get { return _rank; }
-        private set { _rank = value; }
-    }
-
-    public int ServiceDuration
-    {
-        get { return _serviceDuration; }
-        private set { _serviceDuration = value; }
-    }
-
-    public Soldier(string name, string weapon, string rank, int serviceDuration)
+    private Soldier(string name, string weapon, string rank, int serviceDuration)
     {
         Name = name;
         Weapon = weapon;
         Rank = rank;
         ServiceDuration = serviceDuration;
+    }
+
+    public static List<Soldier> CreateSampleSoldiers()
+    {
+        return new List<Soldier>
+        {
+            new Soldier("Алексей", "Винтовка", "Рядовой", 12),
+            new Soldier("Иван", "Пистолет", "Сержант", 24),
+            new Soldier("Петр", "Снайперская винтовка", "Капитан", 36),
+            new Soldier("Николай", "Винтовка", "Лейтенант", 48),
+            new Soldier("Томас", "Винтовка", "Майор", 60)
+        };
     }
 }
