@@ -31,17 +31,37 @@ public class SoldierService
 
 public class Soldier
 {
-    public string Name { get; private set; }
-    public string Weapon { get; private set; }
-    public string Rank { get; private set; }
-    public int ServiceDuration { get; private set; }
+    private string name;
+    private string weapon;
+    private string rank;
+    private int serviceDuration;
 
-    private Soldier(string name, string weapon, string rank, int serviceDuration)
+    public Soldier(string name, string weapon, string rank, int serviceDuration)
     {
-        Name = name;
-        Weapon = weapon;
-        Rank = rank;
-        ServiceDuration = serviceDuration;
+        this.name = name;
+        this.weapon = weapon;
+        this.rank = rank;
+        this.serviceDuration = serviceDuration;
+    }
+
+    public string Name
+    {
+        get { return name; }
+    }
+
+    public string Weapon
+    {
+        get { return weapon; }
+    }
+
+    public string Rank
+    {
+        get { return rank; }
+    }
+
+    public int ServiceDuration
+    {
+        get { return serviceDuration; }
     }
 
     public static List<Soldier> CreateSampleSoldiers()
