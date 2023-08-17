@@ -6,42 +6,31 @@ public class Program
 {
     public static void Main()
     {
-        var soldiers = Soldier.CreateSampleSoldiers();
-        var soldierService = new SoldierService();
+        IEnumerable<Soldier> soldiers = Soldier.CreateSampleSoldiers();
+        SoldierService soldierService = new SoldierService();
         soldierService.DisplaySoldierNamesAndRanks(soldiers);
-    }
-}
-
-public class SoldierService
-{
-    private const string OutputFormat = "{0} - {1}";
-
-    public void DisplaySoldierNamesAndRanks(IEnumerable<Soldier> soldiers)
-    {
-        var soldierNamesAndRanks = from soldier in soldiers
-                                   select new { soldier.Name, soldier.Rank };
-
-        foreach (var item in soldierNamesAndRanks)
-        {
-            Console.WriteLine(string.Format(OutputFormat, item.Name, item.Rank));
-        }
     }
 }
 
 public class Soldier
 {
-    public string Name { get; private set; }
-    public string Weapon { get; private set; }
-    public string Rank { get; private set; }
-    public int ServiceDuration { get; private set; }
+    private string _name;
+    private string _weapon;
+    private string _rank;
+    private int _serviceDuration;
 
     public Soldier(string name, string weapon, string rank, int serviceDuration)
     {
-        Name = name;
-        Weapon = weapon;
-        Rank = rank;
-        ServiceDuration = serviceDuration;
+        _name = name;
+        _weapon = weapon;
+        _rank = rank;
+        _serviceDuration = serviceDuration;
     }
+
+    public string Name { get { return _name; } private set { _name = value; } }
+    public string Weapon { get { return _weapon; } private set { _weapon = value; } }
+    public string Rank { get { return _rank; } private set { _rank = value; } }
+    public int ServiceDuration { get { return _serviceDuration; } private set { _serviceDuration = value; } }
 
     public static List<Soldier> CreateSampleSoldiers()
     {
@@ -53,5 +42,16 @@ public class Soldier
             new Soldier("Николай", "Винтовка", "Лейтенант", 48),
             new Soldier("Томас", "Винтовка", "Майор", 60)
         };
+    }
+}
+
+public class SoldierService
+{
+    public void DisplaySoldierNamesAndRanks(IEnumerable<Soldier> soldiers)
+    {
+        foreach (var soldier in soldiers)
+        {
+            Console.WriteLine($"{soldier.Name} - {soldier.Rank}");
+        }
     }
 }
