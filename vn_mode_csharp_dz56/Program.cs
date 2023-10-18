@@ -8,7 +8,13 @@ public class Program
     {
         IEnumerable<Soldier> soldiers = Soldier.CreateSampleSoldiers();
         SoldierService soldierService = new SoldierService();
-        soldierService.DisplaySoldierNamesAndRanks(soldiers);
+
+        IEnumerable<SimpleSoldier> simpleSoldiers = soldierService.GetSimpleSoldiers(soldiers);
+
+        foreach (SimpleSoldier simpleSoldier in simpleSoldiers)
+        {
+            Console.WriteLine($"{simpleSoldier.Name} - {simpleSoldier.Rank}");
+        }
     }
 }
 
@@ -47,11 +53,14 @@ public class Soldier
 
 public class SoldierService
 {
-    public void DisplaySoldierNamesAndRanks(IEnumerable<Soldier> soldiers)
+    public IEnumerable<SimpleSoldier> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
     {
-        foreach (var soldier in soldiers)
-        {
-            Console.WriteLine($"{soldier.Name} - {soldier.Rank}");
-        }
+        return soldiers.Select(soldier => new SimpleSoldier { Name = soldier.Name, Rank = soldier.Rank });
     }
+}
+
+public class SimpleSoldier
+{
+    public string Name { get; set; }
+    public string Rank { get; set; }
 }
