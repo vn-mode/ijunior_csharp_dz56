@@ -9,9 +9,9 @@ public class Program
         IEnumerable<Soldier> soldiers = Soldier.CreateSampleSoldiers();
         SoldierService soldierService = new SoldierService();
 
-        IEnumerable<SimpleSoldier> simpleSoldiers = soldierService.GetSimpleSoldiers(soldiers);
+        var simpleSoldiers = soldierService.GetSimpleSoldiers(soldiers);
 
-        foreach (SimpleSoldier simpleSoldier in simpleSoldiers)
+        foreach (var simpleSoldier in simpleSoldiers)
         {
             Console.WriteLine($"{simpleSoldier.Name} - {simpleSoldier.Rank}");
         }
@@ -53,14 +53,8 @@ public class Soldier
 
 public class SoldierService
 {
-    public IEnumerable<SimpleSoldier> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
+    public IEnumerable<dynamic> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
     {
-        return soldiers.Select(soldier => new SimpleSoldier { Name = soldier.Name, Rank = soldier.Rank });
+        return soldiers.Select(soldier => new { Name = soldier.Name, Rank = soldier.Rank });
     }
-}
-
-public class SimpleSoldier
-{
-    public string Name { get; set; }
-    public string Rank { get; set; }
 }
