@@ -6,7 +6,7 @@ public class Program
 {
     public static void Main()
     {
-        IEnumerable<Soldier> soldiers = Soldier.CreateSampleSoldiers();
+        IEnumerable<Soldier> soldiers = SampleData.CreateSampleSoldiers();
         SoldierService soldierService = new SoldierService();
 
         var simpleSoldiers = soldierService.GetSimpleSoldiers(soldiers);
@@ -18,26 +18,8 @@ public class Program
     }
 }
 
-public class Soldier
+public static class SampleData
 {
-    private string _name;
-    private string _weapon;
-    private string _rank;
-    private int _serviceDuration;
-
-    public Soldier(string name, string weapon, string rank, int serviceDuration)
-    {
-        _name = name;
-        _weapon = weapon;
-        _rank = rank;
-        _serviceDuration = serviceDuration;
-    }
-
-    public string Name { get { return _name; } private set { _name = value; } }
-    public string Weapon { get { return _weapon; } private set { _weapon = value; } }
-    public string Rank { get { return _rank; } private set { _rank = value; } }
-    public int ServiceDuration { get { return _serviceDuration; } private set { _serviceDuration = value; } }
-
     public static List<Soldier> CreateSampleSoldiers()
     {
         return new List<Soldier>
@@ -51,10 +33,38 @@ public class Soldier
     }
 }
 
+public class Soldier
+{
+    public Soldier(string name, string weapon, string rank, int serviceDuration)
+    {
+        Name = name;
+        Weapon = weapon;
+        Rank = rank;
+        ServiceDuration = serviceDuration;
+    }
+
+    public string Name { get; }
+    public string Weapon { get; }
+    public string Rank { get; }
+    public int ServiceDuration { get; }
+}
+
+public class SimpleSoldierInfo
+{
+    public SimpleSoldierInfo(string name, string rank)
+    {
+        Name = name;
+        Rank = rank;
+    }
+
+    public string Name { get; }
+    public string Rank { get; }
+}
+
 public class SoldierService
 {
-    public IEnumerable<dynamic> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
+    public IEnumerable<SimpleSoldierInfo> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
     {
-        return soldiers.Select(soldier => new { Name = soldier.Name, Rank = soldier.Rank });
+        return soldiers.Select(soldier => new SimpleSoldierInfo(soldier.Name, soldier.Rank));
     }
 }
