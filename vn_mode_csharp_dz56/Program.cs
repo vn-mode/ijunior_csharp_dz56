@@ -6,7 +6,8 @@ public class Program
 {
     public static void Main()
     {
-        IEnumerable<Soldier> soldiers = SampleData.CreateSampleSoldiers();
+        SoldierFactory soldierFactory = new SoldierFactory();
+        IEnumerable<Soldier> soldiers = soldierFactory.CreateSampleSoldiers();
         SoldierService soldierService = new SoldierService();
 
         var simpleSoldiers = soldierService.GetSimpleSoldiers(soldiers);
@@ -18,9 +19,9 @@ public class Program
     }
 }
 
-public static class SampleData
+public class SoldierFactory
 {
-    public static List<Soldier> CreateSampleSoldiers()
+    public List<Soldier> CreateSampleSoldiers()
     {
         return new List<Soldier>
         {
@@ -49,22 +50,10 @@ public class Soldier
     public int ServiceDuration { get; }
 }
 
-public class SimpleSoldierInfo
-{
-    public SimpleSoldierInfo(string name, string rank)
-    {
-        Name = name;
-        Rank = rank;
-    }
-
-    public string Name { get; }
-    public string Rank { get; }
-}
-
 public class SoldierService
 {
-    public IEnumerable<SimpleSoldierInfo> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
+    public IEnumerable<(string Name, string Rank)> GetSimpleSoldiers(IEnumerable<Soldier> soldiers)
     {
-        return soldiers.Select(soldier => new SimpleSoldierInfo(soldier.Name, soldier.Rank));
+        return soldiers.Select(soldier => (soldier.Name, soldier.Rank));
     }
 }
